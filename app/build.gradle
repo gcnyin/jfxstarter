@@ -1,0 +1,23 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id "org.beryx.jlink" version "2.24.4"
+}
+
+javafx {
+    version = '17.0.1'
+    modules = ['javafx.controls', 'javafx.media']
+}
+
+repositories {
+    mavenLocal()
+    maven { url 'https://repo.huaweicloud.com/repository/maven/' }
+    mavenCentral()
+}
+
+dependencies {
+}
+
+application {
+    mainClass = 'jfxstarter.App'
+}
