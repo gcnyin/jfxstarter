@@ -6,6 +6,10 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -72,10 +76,33 @@ public class App extends Application {
         initShow();
 
         Scene scene = new Scene(root);
+
+        KeyCodeCombination macQuit = new KeyCodeCombination(KeyCode.Q, KeyCombination.META_DOWN);
+
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.UP) {
+                EARTH_VIEW.setOpacity(EARTH_VIEW.getOpacity() + 0.05);
+            } else if (e.getCode() == KeyCode.DOWN) {
+                EARTH_VIEW.setOpacity(EARTH_VIEW.getOpacity() - 0.05);
+            }
+            if (EARTH_VIEW.getOpacity() >= 1) {
+                EARTH_VIEW.setOpacity(1);
+            } else if (EARTH_VIEW.getOpacity() <= 0) {
+                EARTH_VIEW.setOpacity(0);
+            }
+        });
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("2021-11-03 20:23");
         primaryStage.setResizable(false);
         primaryStage.show();
+
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == macQuit.getCode()) {
+                System.out.println(macQuit);
+                System.exit(0);
+            }
+        });
 
         AnimationTimer animationTimer = new AnimationTimer() {
             int times;
