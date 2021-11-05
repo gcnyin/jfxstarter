@@ -57,12 +57,13 @@ public class App extends Application {
 
     private static final long ONE_SECOND = 1_000_000_000; // 1s = 10亿nano
 
+    private static final ImageView EARTH_VIEW = new ImageView(new Image("/earth.png"));
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         fpsText.setFill(Color.WHITE);
         fpsText.setFont(Font.font(35));
         fpsText.setTextOrigin(VPos.TOP);
-        root.getChildren().add(fpsText);
         Image background = new Image(Objects.requireNonNull(App.class.getResource("/b3.jpeg")).toExternalForm());
         h = background.getHeight() - FLAKE_IMG_HEIGHT;
         w = background.getWidth() - FLAKE_IMG_HEIGHT;
@@ -116,6 +117,9 @@ public class App extends Application {
                     flake.setOpacity(1 - flake.getY() / h);
                 }
                 reverse = false;
+
+                // 地球旋转
+                EARTH_VIEW.setRotate(times * 2);
             }
         };
 
@@ -123,6 +127,23 @@ public class App extends Application {
     }
 
     private void initShow() {
+        addFlakes();
+        addEarth();
+        addFpsInfo();
+    }
+
+    private void addFpsInfo() {
+        root.getChildren().add(fpsText);
+    }
+
+    private void addEarth() {
+        EARTH_VIEW.setX(100);
+        EARTH_VIEW.setY(100);
+        EARTH_VIEW.setOpacity(0.5);
+        root.getChildren().add(EARTH_VIEW);
+    }
+
+    private void addFlakes() {
         for (int i = 0; i < 2000; i++) {
             Flake flake = new Flake();
             flake.setX(random.nextDouble() * w);
@@ -133,7 +154,6 @@ public class App extends Application {
             flake.setOpacity(1 - flake.getY() / h);
             flake.setHorSpeed(random.nextDouble() - 0.5);
             // flake.setRotate((flake.getRotate() + 3) % 360);
-
             flakes.add(flake);
         }
         root.getChildren().addAll(flakes);
